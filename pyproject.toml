@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stegonexus"
+version = "1.0.0"
+description = "StegoNexus - Unified Hiding, Extraction & Forensics Framework (Kali Linux)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+authors = [{ name = "Mohammed Moneer Al-absi" }]
+dependencies = [
+    "numpy>=1.24",
+    "Pillow>=9.0",
+    "PySide6>=6.5",
+    "pycryptodome>=3.18",
+]
+
+[project.scripts]
+stegonexus-gui = "stegonexus.gui.app:main"
+stegonexus = "stegonexus.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["stegonexus*"]

@@ -1,0 +1,17 @@
+# Python build artefacts
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+.mypy_cache/
+.pytest_cache/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+
+# NOTE: demo_output/ (stego artifacts, pcaps, cases, reports) and
+# screenshots/ are committed on purpose as reproducible demo evidence.

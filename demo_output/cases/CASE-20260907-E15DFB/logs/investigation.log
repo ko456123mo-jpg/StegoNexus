@@ -1,0 +1,10 @@
+[2026-09-07 08:01:33] case created :: Demo case — full pipeline
+[2026-09-07 08:01:33] evidence added :: EV-001 /home/user/StegoNexus/demo_output/secret_payload.bin
+[2026-09-07 08:01:33] evidence added :: EV-002 /home/user/StegoNexus/demo_output/cover_photo_stego.png
+[2026-09-07 08:01:33] finding recorded :: [INFO] secret hidden in image (CyberHide AES-LSB)
+[2026-09-07 08:01:33] finding recorded :: [HIGH] NO STRONG HIDING INDICATORS
+[2026-09-07 08:01:33] operation: demo run-all-modules
+[2026-09-07 08:01:33] report exported :: md -> /home/user/StegoNexus/demo_output/cases/CASE-20260907-E15DFB/reports/report_case.md
+[2026-09-07 08:01:33] report exported :: json -> /home/user/StegoNexus/demo_output/cases/CASE-20260907-E15DFB/reports/report_case.json
+[2026-09-07 08:01:33] report exported :: html -> /home/user/StegoNexus/demo_output/cases/CASE-20260907-E15DFB/reports/report_case.html
+[2026-09-07 08:01:33] case closed

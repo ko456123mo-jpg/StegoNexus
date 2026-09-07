@@ -1,0 +1,23 @@
+Foremost version 1.5.7 by Jesse Kornblum, Kris Kendall, and Nick Mikus
+Audit File
+
+Foremost started at Mon Sep  7 08:01:32 2026
+Invocation: foremost -o /home/user/StegoNexus/demo_output/foremost_output -t all /home/user/StegoNexus/demo_output/cover_photo_stego.png 
+Output directory: /home/user/StegoNexus/demo_output/foremost_output
+Configuration file: /etc/foremost.conf
+------------------------------------------------------------------
+File: /home/user/StegoNexus/demo_output/cover_photo_stego.png
+Start: Mon Sep  7 08:01:32 2026
+Length: 366 KB (375106 bytes)
+ 
+Num	 Name (bs=512)	       Size	 File Offset	 Comment 
+
+0:	00000000.png 	     366 KB 	          0 	  (520 x 360)
+Finish: Mon Sep  7 08:01:32 2026
+
+1 FILES EXTRACTED
+	
+png:= 1
+------------------------------------------------------------------
+
+Foremost finished at Mon Sep  7 08:01:32 2026

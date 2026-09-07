@@ -1,0 +1,8 @@
+numpy>=1.24
+Pillow>=9.0
+PySide6>=6.5
+pycryptodome>=3.18
+
+# ---- optional external tools (Kali: sudo apt install) -------------------
+# steghide , exiftool , binwalk , foremost , zsteg , ffmpeg , ffprobe
+# When absent, StegoNexus automatically uses its built-in fallbacks.
