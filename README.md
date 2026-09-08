@@ -1,5 +1,7 @@
 # StegoNexus — Unified Hiding, Extraction & Forensics Framework
 
+<p align="center"><img src="screenshots/logo_primary.png" width="340" alt="StegoNexus logo"></p>
+
 **Prepared & Developed by: Mohammed Moneer Al-absi**
 
 > تحويل تقنيات الإخفاء (Hiding) والاستخراج (Extraction) التي تم تناولها خلال الترم
@@ -174,6 +176,7 @@ python demo.py                       # builds a full demo in demo_output/
 |------|---------|
 | `StegoNexus_Presentation.pptx` | 17-slide project presentation (AR/EN, real screenshots) |
 | `StegoNexus_Documentation.docx` | Official submission documentation (Arabic) |
+| `StegoNexus_Professional_Report.docx` | Professional tool report (logo + full metrics + gallery) |
 | `VIVA_QUESTIONS.md` | The 4 assessment questions + model answers |
 | `VERIFICATION_REPORT.md` / `COMPLIANCE_REPORT.md` | Test results & spec-compliance audit |
 | `RUN_ON_KALI.md` | Arabic run guide |
