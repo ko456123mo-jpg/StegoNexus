@@ -242,7 +242,12 @@ def main():
         assert zw.inspect(stego)["suspicious"]
         secret, _ = zw.reveal(stego, "key-zw")
         assert secret == "SECRET-ZW-777"
-    check("text hiding: second technique (zero-width) + detection", t_zerowidth)
+        try:
+            zw.reveal(stego, "wrong-key")
+            raise AssertionError("zero-width accepted a wrong key!")
+        except ValueError:
+            pass
+    check("text hiding: second technique (zero-width) + detection + key auth", t_zerowidth)
 
     # ---- 02 forensics ---------------------------------------------------
     def t_forensics():

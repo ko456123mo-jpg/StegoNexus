@@ -1,10 +1,10 @@
 {
-  "case_id": "CASE-20260907-E15DFB",
+  "case_id": "CASE-20260908-BFCDBE",
   "title": "Demo case — full pipeline",
   "examiner": "Mohammed Moneer Al-absi",
   "notes": "All hiding techniques + forensics in one case",
-  "created": "2026-09-07 08:01:33",
-  "updated": "2026-09-07 08:01:33",
+  "created": "2026-09-08 01:24:23",
+  "updated": "2026-09-08 01:24:23",
   "status": "CLOSED",
   "evidence": [
     {
@@ -12,7 +12,7 @@
       "path": "/home/user/StegoNexus/demo_output/secret_payload.bin",
       "category": "secret",
       "description": "the payload",
-      "added": "2026-09-07 08:01:33",
+      "added": "2026-09-08 01:24:23",
       "sha256": "7b8c81bdc8be5516886c8dd1861c01fb41ead81fcfa52eac32cd68f46bba6c2b"
     },
     {
@@ -20,8 +20,8 @@
       "path": "/home/user/StegoNexus/demo_output/cover_photo_stego.png",
       "category": "stego-artifact",
       "description": "stego image",
-      "added": "2026-09-07 08:01:33",
-      "sha256": "e985ef1edb7fbba27c7fdff6e04d7c91d70777c66ea90eb8c9c7ef43eeaabd7b"
+      "added": "2026-09-08 01:24:23",
+      "sha256": "30a38d5c24f006bbda316814cca68bd53324bce977b77f6d4b1204792d3d2cda"
     }
   ],
   "findings": [
@@ -31,7 +31,7 @@
       "summary": "secret hidden in image (CyberHide AES-LSB)",
       "details": "verified",
       "severity": "INFO",
-      "timestamp": "2026-09-07 08:01:33"
+      "timestamp": "2026-09-08 01:24:23"
     },
     {
       "id": "FN-002",
@@ -39,15 +39,15 @@
       "summary": "NO STRONG HIDING INDICATORS",
       "details": {
         "file": "/home/user/StegoNexus/demo_output/cover_photo_stego.png",
-        "entropy": 7.9633
+        "entropy": 7.963
       },
       "severity": "HIGH",
-      "timestamp": "2026-09-07 08:01:33"
+      "timestamp": "2026-09-08 01:24:23"
     }
   ],
   "operations": [
     {
-      "timestamp": "2026-09-07 08:01:33",
+      "timestamp": "2026-09-08 01:24:23",
       "module": "demo",
       "action": "run-all-modules",
       "result": {
@@ -57,52 +57,52 @@
   ],
   "logs": [
     {
-      "timestamp": "2026-09-07 08:01:33",
+      "timestamp": "2026-09-08 01:24:23",
       "message": "case created",
       "detail": "Demo case — full pipeline"
     },
     {
-      "timestamp": "2026-09-07 08:01:33",
+      "timestamp": "2026-09-08 01:24:23",
       "message": "evidence added",
       "detail": "EV-001 /home/user/StegoNexus/demo_output/secret_payload.bin"
     },
     {
-      "timestamp": "2026-09-07 08:01:33",
+      "timestamp": "2026-09-08 01:24:23",
       "message": "evidence added",
       "detail": "EV-002 /home/user/StegoNexus/demo_output/cover_photo_stego.png"
     },
     {
-      "timestamp": "2026-09-07 08:01:33",
+      "timestamp": "2026-09-08 01:24:23",
       "message": "finding recorded",
       "detail": "[INFO] secret hidden in image (CyberHide AES-LSB)"
     },
     {
-      "timestamp": "2026-09-07 08:01:33",
+      "timestamp": "2026-09-08 01:24:23",
       "message": "finding recorded",
       "detail": "[HIGH] NO STRONG HIDING INDICATORS"
     },
     {
-      "timestamp": "2026-09-07 08:01:33",
+      "timestamp": "2026-09-08 01:24:23",
       "message": "operation: demo run-all-modules",
       "detail": ""
     },
     {
-      "timestamp": "2026-09-07 08:01:33",
+      "timestamp": "2026-09-08 01:24:23",
       "message": "report exported",
-      "detail": "md -> /home/user/StegoNexus/demo_output/cases/CASE-20260907-E15DFB/reports/report_case.md"
+      "detail": "md -> /home/user/StegoNexus/demo_output/cases/CASE-20260908-BFCDBE/reports/report_case.md"
     },
     {
-      "timestamp": "2026-09-07 08:01:33",
+      "timestamp": "2026-09-08 01:24:23",
       "message": "report exported",
-      "detail": "json -> /home/user/StegoNexus/demo_output/cases/CASE-20260907-E15DFB/reports/report_case.json"
+      "detail": "json -> /home/user/StegoNexus/demo_output/cases/CASE-20260908-BFCDBE/reports/report_case.json"
     },
     {
-      "timestamp": "2026-09-07 08:01:33",
+      "timestamp": "2026-09-08 01:24:23",
       "message": "report exported",
-      "detail": "html -> /home/user/StegoNexus/demo_output/cases/CASE-20260907-E15DFB/reports/report_case.html"
+      "detail": "html -> /home/user/StegoNexus/demo_output/cases/CASE-20260908-BFCDBE/reports/report_case.html"
     },
     {
-      "timestamp": "2026-09-07 08:01:33",
+      "timestamp": "2026-09-08 01:24:23",
       "message": "case closed",
       "detail": ""
     }

@@ -27,6 +27,7 @@ How it works:
 from __future__ import annotations
 
 import hashlib
+import hmac as _hmac
 from typing import Tuple
 
 MAGIC = b"SNXZ"
@@ -74,7 +75,8 @@ def hide(cover_text: str, secret_message: str, key: str) -> Tuple[str, dict]:
     if len(secret) > MAX_SECRET_BYTES:
         raise ValueError(f"Secret too long ({len(secret)} B > {MAX_SECRET_BYTES})")
     ks = derive_key(key)
-    payload = MAGIC + len(secret).to_bytes(2, "big") + xor_crypt(secret, ks)
+    mac = _hmac.new(ks[:32], secret, hashlib.sha256).digest()[:16]   # key binding
+    payload = MAGIC + len(secret).to_bytes(2, "big") + mac + xor_crypt(secret, ks)
 
     # map 2 bits -> zero-width char
     bits = _unpack(payload)
@@ -109,15 +111,22 @@ def reveal(stego_text: str, key: str) -> Tuple[str, dict]:
     payload = _pack(bits)
     if not payload.startswith(MAGIC):
         raise ValueError("No zero-width payload found (wrong text or no hiding)")
-    if len(payload) < len(MAGIC) + 2:
+    if len(payload) < len(MAGIC) + 2 + 16:
         raise ValueError("Zero-width payload truncated")
     size = int.from_bytes(payload[len(MAGIC):len(MAGIC) + 2], "big")
-    body = payload[len(MAGIC) + 2:len(MAGIC) + 2 + size]
+    mac = payload[len(MAGIC) + 2:len(MAGIC) + 2 + 16]
+    body = payload[len(MAGIC) + 2 + 16:len(MAGIC) + 2 + 16 + size]
     if len(body) != size:
         raise ValueError(f"Zero-width payload incomplete ({len(body)}/{size} B)")
-    secret = xor_crypt(body, derive_key(key)).decode("utf-8", "replace")
-    return secret, {"method": "zerowidth", "secret_bytes": size,
-                    "hidden_chars": len(bits) // 2}
+    ks = derive_key(key)
+    secret = xor_crypt(body, ks)
+    if not _hmac.compare_digest(mac, _hmac.new(ks[:32], secret,
+                                               hashlib.sha256).digest()[:16]):
+        raise ValueError("Wrong Key — HMAC check failed (payload integrity "
+                         "could not be verified with this key)")
+    return secret.decode("utf-8", "replace"), {"method": "zerowidth",
+                                               "secret_bytes": size,
+                                               "hidden_chars": len(bits) // 2}
 
 
 def inspect(stego_text: str) -> dict:

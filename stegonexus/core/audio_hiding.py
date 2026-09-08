@@ -229,7 +229,10 @@ def phase_extract(wav_path: str, key: str, out_dir: Optional[str] = None) -> dic
     blob = _from_bits(bits)
     secret = _decrypt(blob, key)
     if secret is None:
-        raise ValueError("Phase decoding failed: wrong key or corrupted audio")
+        raise ValueError(
+            "Phase decoding failed: wrong key, or the stego audio was "
+            "re-sampled/re-encoded. Note: Phase Coding needs a broadband cover "
+            "(music / noise) — pure tones leave most frequency bins empty.")
     out_dir = out_dir or os.path.dirname(os.path.abspath(wav_path))
     os.makedirs(out_dir, exist_ok=True)
     out = os.path.join(out_dir, "extracted_secret.bin")

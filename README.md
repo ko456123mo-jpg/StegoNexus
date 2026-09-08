@@ -165,6 +165,7 @@ python run_cli.py case export --case-id CASE-XXXX --format md
 ```bash
 python tests/test_integration.py     # 24/24 end-to-end checks
 python tests/test_requirements.py    # 60/60 live requirement checks
+python tests/test_readiness.py       # 25/25 — EVERY technique used end-to-end
 python demo.py                       # builds a full demo in demo_output/
 ```
 
@@ -179,6 +180,7 @@ python demo.py                       # builds a full demo in demo_output/
 | `StegoNexus_Professional_Report.docx` | Professional tool report — **English** (logo + metrics + gallery) |
 | `StegoNexus_Professional_Report_AR.docx` | Same report in Arabic (reference copy) |
 | `VIVA_QUESTIONS.md` | The 4 assessment questions + model answers |
+| `READINESS_REPORT.md` | Final readiness report — every technique verified end-to-end (25/25) |
 | `VERIFICATION_REPORT.md` / `COMPLIANCE_REPORT.md` | Test results & spec-compliance audit |
 | `RUN_ON_KALI.md` | Arabic run guide |
 
