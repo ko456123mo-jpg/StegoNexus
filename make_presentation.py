@@ -210,9 +210,9 @@ def main():
 
     # ---------------- 7 TEXT ----------------
     s = slide_blank(prs)
-    title_bar(s, "04", "إخفاء النصوص — LSB مع المفتاح", "Text Hiding — LSB with Key")
+    title_bar(s, "04", "إخفاء النصوص — تقنيتان", "Text Hiding — LSB with Key + Zero-Width")
     add_text(s, Inches(0.8), Inches(1.5), Inches(11.7), Inches(1.0), [
-        ("Python implementation داخل الأداة (بدل برنامج جاهز)", 15, True, WHITE),
+        ("Python implementation داخل الأداة (بدل برنامج جاهز) — تقنيتان لكل موضوع", 15, True, WHITE),
     ])
     box = s.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(0.8),
                              Inches(2.1), Inches(11.7), Inches(1.9))
@@ -228,7 +228,11 @@ def main():
     bullets(s, [
         "السر يُشفَّر بتيار مفتاح مشتق من المفتاح (PBKDF2-HMAC-SHA256) ثم يُخفى في LSB لرموز النص",
         "تبديل مواضع الحاملات مبني على المفتاح → بدون المفتاح لا يمكن إعادة التجميع (رفض المفتاح الخاطئ)",
-    ], y=4.3, size=14, gap=8)
+    ], y=3.7, size=14, gap=6)
+    bullets(s, [
+        "التقنية الثانية (Zero-Width): أزواج البتات تُرمَّز بأحرف غير مرئية (U+200B/U+200C/U+200D/U+FEFF) موزعة داخل النص بتباعد مفتاحي — النص يبدو عادياً تماماً",
+        "الكشف: text-inspect يقرأ الأحرف غير المرئية ويكتشف الحمولة **بدون المفتاح**",
+    ], y=4.9, size=13, gap=6)
 
     # ---------------- 8 IMAGE ----------------
     s = slide_blank(prs)
@@ -242,6 +246,31 @@ def main():
     ], size=15, gap=10)
     pic(s, os.path.join(SC, "05_image_hiding.png"), Inches(0.8), Inches(4.6),
         Inches(5.9))
+
+    # ---------------- 8b METADATA (view + inject) ----------------
+    s = slide_blank(prs)
+    title_bar(s, "05+", "أداة البيانات الوصفية — عرض وحقن", "Metadata View & Inject (requirement item 1)")
+    pic(s, os.path.join(SC, "05b_image_metadata.png"), Inches(0.55), Inches(1.45),
+        Inches(7.0))
+    add_text(s, Inches(7.9), Inches(1.6), Inches(4.9), Inches(5.4), [
+        ("المتطلب:", 15, True, YELLOW),
+        ("أداة تعرض البيانات الوصفية وأيضاً أداة تحقنها", 14, False, WHITE),
+        ("", 8, False, WHITE),
+        ("View:", 15, True, GREEN),
+        ("exiftool (Kali) لعرض كل حقول الملف مع بديل Pillow كامل", 13, False, WHITE),
+        ("", 8, False, WHITE),
+        ("Inject:", 15, True, GREEN),
+        ("exiftool -Comment/-Artist مع -o (لا يُلمس الأصل أبداً) / PNG tEXt / JPEG COM", 13, False, WHITE),
+        ("", 8, False, WHITE),
+        ("امتداد الصوت:", 15, True, GREEN),
+        ("حقن RIFF LIST-INFO (ICMT) عبر وحدة الصوت", 13, False, WHITE),
+        ("", 8, False, WHITE),
+        ("تحقق فوري:", 15, True, GREEN),
+        ("إعادة قراءة البيانات بعد الحقن والتحقق من وجودها (verified)", 13, False, WHITE),
+        ("", 8, False, WHITE),
+        ("CLI:", 15, True, YELLOW),
+        ("image-meta view|inject", 14, False, GREEN),
+    ], rtl=False)
 
     # ---------------- 9 AUDIO ----------------
     s = slide_blank(prs)
@@ -323,8 +352,8 @@ def main():
     s = slide_blank(prs)
     title_bar(s, "TEST", "نتائج التحقق", "Verification Results")
     rows = [
-        ("اختبارات التكامل (كل وحدة دالة)", "23 / 23  ✓", GREEN),
-        ("مصفوفة المتطلبات (كل بند بفحص حي)", "59 / 59  ✓", GREEN),
+        ("اختبارات التكامل (كل وحدة دالة)", "24 / 24  ✓", GREEN),
+        ("مصفوفة المتطلبات (كل بند بفحص حي)", "60 / 60  ✓", GREEN),
         ("أدوات Kali الحقيقية المثبتة (steghide, exiftool, binwalk, foremost, zsteg, ffmpeg…) ", "8 / 8  ✓", GREEN),
         ("جولات إخفاء/استخراج كاملة (نص·صورة·صوت×4·فيديو×3·شبكة×3)", "كلها ✓", GREEN),
         ("مطابقة ملف المتطلبات PDF (12 قسماً)", "≈ 99.8 %", YELLOW),

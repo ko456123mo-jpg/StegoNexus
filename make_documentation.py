@@ -111,7 +111,7 @@ para("StegoNexus أداة واحدة متكاملة تعمل على Kali Linux �
 table([
     ["البند", "القيمة"],
     ["الأقسام المنفّذة من المتطلبات", "12/12 (كل مواضيع الترم)"],
-    ["تقنيات الإخفاء المنفّذة", "نص (LSB+Key) · صورة (Steghide/CyberHide) · صوت (4 تقنيات) · فيديو (3 تقنيات) · شبكة (3 قنوات) · برامج ضارة (كشف/تحليل)"],
+    ["تقنيات الإخفاء المنفّذة", "نص (تقنيتان: LSB+Key و Zero-Width) · صورة (Steghide/CyberHide) · صوت (4 تقنيات) · فيديو (3 تقنيات) · شبكة (3 قنوات) · برامج ضارة (كشف/تحليل)"],
     ["أدوات التحليل الجنائي", "file · strings · exiftool · binwalk · steghide info · foremost · zsteg · Shannon Entropy"],
     ["الخوارزميات", "MD5 · SHA-1 · SHA-256 · SHA-512"],
     ["الواجهات", "GUI (PySide6) + CLI (22 أمراً)"],
@@ -131,7 +131,7 @@ table([
     ["إخفاء/استخراج الفيديو", "Video LSB (عبر المسار الصوتي، إطارات منسوخة) · Container Hiding · Spread Spectrum + videohide.sh + FFmpeg/FFprobe", "✔"],
     ["إخفاء/استخراج الشبكة", "قنوات IP-ID LSB · TCP ISN LSB · Timing + كشف القنوات الخفية (بنّاء PCAP خاص)", "✔"],
     ["البرامج الضارة والفيروسات", "وحدة Malware Lab: تحليل PE/ELF + إنتروبيا الأقسام + كشف مؤشرات PyInstaller/WinRAR/Sliver/Metasploit (تحليل وكشف أكاديمي)", "✔"],
-    ["كل موضوع بأكثر من تقنية (اختر تقنية أو أكثر)", "نعم: الصوت 4 تقنيات · الفيديو 3 · الشبكة 3 · الصورة 2 (+ حماية كلٌّ بالمفتاح)", "✔"],
+    ["كل موضوع بأكثر من تقنية (اختر تقنية أو أكثر)", "نعم: النص 2 · الصورة 2 · الصوت 4 · الفيديو 3 · الشبكة 3 (+ حماية كلٌّ بالمفتاح)", "✔"],
     ["فهم كل ما أُخذ في العملي والتقنيات", "توثيق كل تقنية بآلية عملها في ARCHITECTURE.md + أسئلة المناقشة في VIVA_QUESTIONS.md", "✔"],
 ], widths=[2.4, 3.4, 0.6])
 
@@ -179,10 +179,13 @@ mods = [
     ("03 — Hashing & Integrity",
      "MD5 / SHA-1 / SHA-256 / SHA-512 (بثّ 1MiB). مقارنة ملفين، إنشاء/التحقق من manifests، "
      "وتسجيل SHA-256 تلقائياً لكل دليل في القضية، مع التحقق قبل وبعد الإخفاء والاستخراج."),
-    ("04 — Text Hiding: LSB with Key",
-     "التنفيذ: Cover + Secret + Key → تشفير السر بتيار مفتاح (PBKDF2-HMAC-SHA256، 100k جولة) "
-     "وهي موجودة في ترويسة تنسيق، ثم إخفاء البتات في LSB لرموز يونيكود عبر تبديل مواضع مبني "
-     "على المفتاح. الاستخراج يعكس العملية بنفس المفتاح؛ المفتاح الخاطئ يُرفض."),
+    ("04 — Text Hiding (تقنيتان): LSB with Key + Zero-Width",
+     "تقنية 1 (LSB): Cover + Secret + Key → تشفير السر بتيار مفتاح (PBKDF2-HMAC-SHA256، 100k "
+     "جولة) وهي موجودة في ترويسة تنسيق، ثم إخفاء البتات في LSB لرموز يونيكود عبر تبديل مواضع "
+     "مبني على المفتاح؛ الاستخراج يعكس العملية بنفس المفتاح والمفتاح الخاطئ يُرفض.\n"+
+     "تقنية 2 (Zero-Width): كل بتّين يُرمَّزان بأحد أربعة أحرف غير مرئية (U+200B / U+200C / "
+     "U+200D / U+FEFF) تُوزَّع داخل النص بتباعد مفتاحي؛ النص يبدو طبيعياً تماماً والاستخراج "
+     "يزيلها ويعيد فك التشفير. إضافة إلى ذلك يوجد أمر text-inspect يكشف القناة بدون المفتاح."),
     ("05 — Image Hiding: Steghide + CyberHide",
      "Steghide (Kali): Image+Secret+Password → Stego Image (JPEG، Rijndael-128 CBC)، "
      "والاستخراج بالعكس. CyberHide (مدمج): AES-256-CBC + HMAC-SHA256 + تبديل القنوات بالمفتاح، "
@@ -222,6 +225,7 @@ heading("5) سير العمليات (Operations) للتقنيات الرئيسي
 table([
     ["التقنية", "Hiding / Encoding", "Extraction / Decoding"],
     ["Text LSB", "Cover Text + Secret + Key → LSB Encoding → Stego Text", "Stego Text + Key → LSB Decoding → Original Secret"],
+    ["Text Zero-Width", "Cover Text + Secret + Key → 2-bit → invisible chars → Stego Text", "Stego Text + Key → strip chars + XOR → Original Secret"],
     ["Image (Steghide)", "Image + Secret File + Password → Steghide → Stego Image", "Stego Image + Password → Steghide → Original Secret"],
     ["Image (CyberHide)", "Image + Secret + Password → AES+HMAC+LSB → Stego PNG", "Stego PNG + Password → HMAC verify → Original Secret"],
     ["Audio LSB", "WAV + Secret + Key → LSB (keyed permutation) → Stego WAV", "Stego WAV + Key → LSB decode → Original Secret"],
@@ -243,7 +247,7 @@ heading("6.2 خط الأوامر", 3)
 cmds = [
     ("تشغيل", "python run_cli.py --help"),
     ("هاش", "python run_cli.py hash file.iso -a MD5 SHA-256"),
-    ("نص", "python run_cli.py text hide cover.txt --message s.txt --key K  ثم  text reveal"),
+    ("نص", "python run_cli.py text hide cover.txt --message s.txt --key K  ثم  text reveal  (اختر --technique lsb/zerowidth) + text-inspect"),
     ("صورة", "python run_cli.py image photo.jpg s.bin --password pw  ثم  image-unhide"),
     ("بيانات وصفية", "python run_cli.py image-meta inject photo.png --comment '…'   |   image-meta view"),
     ("صوت", "python run_cli.py audio {lsb|phase|ss|meta} w.wav s.bin --key K  ثم  audio-unhide"),

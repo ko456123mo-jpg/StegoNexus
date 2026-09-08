@@ -71,25 +71,40 @@ def cmd_entropy(args) -> None:
 
 
 def cmd_text(args) -> None:
+    tech = getattr(args, "technique", "lsb")
+    mod = core.text_zerowidth if tech == "zerowidth" else core.text_hiding
     if args.action == "hide":
         with open(args.cover, "r", encoding="utf-8") as fh:
             cover = fh.read()
         with open(args.message, "r", encoding="utf-8") as fh:
             secret = fh.read()
-        stego, meta = core.text_hiding.encode(cover, secret, args.key)
+        stego, meta = mod.encode(cover, secret, args.key)
         with open(args.output, "w", encoding="utf-8") as fh:
             fh.write(stego)
         _p(f"[+] Stego text written: {args.output}")
-        _p(f"    payload bits: {meta['payload_bits']} | "
+        _p(f"    technique: {tech} | payload bits: {meta.get('payload_bits', meta.get('hidden_chars'))} | "
            f"secret bytes: {meta['secret_bytes']} | "
            f"cover chars: {meta['cover_chars']}")
     else:
         with open(args.cover, "r", encoding="utf-8") as fh:
             text = fh.read()
-        secret, meta = core.text_hiding.decode(text, args.key)
+        secret, meta = mod.decode(text, args.key)
         _p("[+] Recovered message:")
         _p(secret)
-        _p(f"    recovered bytes: {meta['recovered_bytes']}")
+        _p(f"    technique: {tech} | recovered bytes: "
+           f"{meta.get('recovered_bytes', meta.get('secret_bytes'))}")
+
+
+def cmd_text_inspect(args) -> None:
+    from stegonexus.core import text_zerowidth as zw
+    with open(args.file, "r", encoding="utf-8") as fh:
+        text = fh.read()
+    r = zw.inspect(text)
+    _p(f"zero-width characters found : {r['count']}")
+    _p(f"breakdown                   : { {repr(k): v for k, v in r['counts'].items()} }")
+    _p(f"payload bytes (bit-decoded): {r['payload_bytes']}")
+    _p("VERDICT: " + ("SUSPICIOUS - zero-width payload detected"
+                      if r["suspicious"] else "no zero-width payload"))
 
 
 def cmd_image(args) -> None:
@@ -316,12 +331,18 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--threshold", type=float, default=7.5)
     s.set_defaults(fn=cmd_entropy)
 
-    # text
-    s = sub.add_parser("text", help="Text LSB hiding with key")
+    # text (2 techniques: LSB and Zero-Width)
+    s = sub.add_parser("text", help="Text hiding with key (LSB / Zero-Width)")
     s.add_argument("action", choices=["hide", "reveal"])
     s.add_argument("cover"); s.add_argument("--key", required=True)
     s.add_argument("--message"); s.add_argument("--output", default="stego_text.txt")
+    s.add_argument("--technique", choices=["lsb", "zerowidth"], default="lsb")
     s.set_defaults(fn=cmd_text)
+
+    s = sub.add_parser("text-inspect",
+                       help="detect zero-width (invisible) payloads in text")
+    s.add_argument("file")
+    s.set_defaults(fn=cmd_text_inspect)
 
     # image
     s = sub.add_parser("image", help="Image hiding (CyberHide-style AES-LSB)")

@@ -15,7 +15,7 @@
 | بنود مكتملة بنسبة 100% | **56** |
 | بنود مكتملة بنسبة 95% (فارق تنفيذي موثّق) | **2** |
 | **نسبة التوافق الإجمالية (مرجّحة بعدد البنود)** | **≈ 99.8%** |
-| اختبارات التحقق الآلي | **23/23 ناجحة** |
+| اختبارات التحقق الآلي | **24/24 ناجحة** |
 | أدوات Kali حقيقية جُرّبت داخل الأداة | steghide · exiftool · foremost · file · strings · ffmpeg · ffprobe |
 | مصدر البنود | قراءة بصرية دقيقة لصفحات PDF الست (وليس النص المستخرج الآلي المشوّه) |
 
@@ -187,13 +187,13 @@
 
 ```bash
 cd StegoNexus
-python tests/test_integration.py   # 23/23 ✓
+python tests/test_integration.py   # 24/24 ✓
 python demo.py                     # كل الأقسام تنفَّذ وتنتج ملفات فعلية
 ```
 
 | دليل | ملاحظة |
 |---|---|
-| 23/23 اختباراً | تشمل steghide حقيقياً (إخفاء/info بكلمة صحيحة/استخراج/رفض خاطئة) وffmpeg حقيقياً (MP4→PCM MKV) |
+| 24/24 اختباراً | تشمل steghide حقيقياً (إخفاء/info بكلمة صحيحة/استخراج/رفض خاطئة) وffmpeg حقيقياً (MP4→PCM MKV) |
 | الديمو `demo_output/` | 12 قسماً تنتج: stego image/audio/video/PCAP/spectrogram + قضية Case بتقارير MD/JSON/HTML |
 | كشف الأدوات الخارجية | في الحاضنة جُرّبت: steghide, exiftool, foremost, file, strings, ffmpeg, ffprobe — وbinwalk/zsteg مدعومان مع بديل مدمج مطابق (غير متاحين في الحاضنة) |
 

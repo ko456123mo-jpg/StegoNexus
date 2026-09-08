@@ -19,8 +19,8 @@
 
 | الاختبار | النتيجة |
 |---|---|
-| **1. مصفوفة المتطلبات (59 بنداً من ملف الـ PDF، كل بند بفحص حي)** | ✅ **59/59** |
-| **2. اختبارات التكامل (23 حالة دالة على كل وحدة + أداة البيانات الوصفية)** | ✅ **23/23** |
+| **1. مصفوفة المتطلبات (60 بنداً من ملف الـ PDF، كل بند بفحص حي)** | ✅ **60/60** |
+| **2. اختبارات التكامل (24 حالة دالة على كل وحدة + أداة البيانات الوصفية)** | ✅ **24/24** |
 | **3. تجربة العرض الشاملة (demo.py)** | ✅ كل الأقسام (29 ملفاً ناتجاً) |
 | **4. فحص الواجهة GUI** | ✅ 10 صفحات تُبنى وتعمل |
 | **5. فحص CLI** | ✅ كل الأوامر تنفذ |
@@ -59,7 +59,7 @@ Cover + Secret + Key → LSB → Stego Text → (نفس Key) → Secret الأص
 
 ---
 
-## 3) تفاصيل مصفوفة المتطلبات (59/59)
+## 3) تفاصيل مصفوفة المتطلبات (60/60)
 
 | القسم | البنود | فحص حي | النتيجة |
 |---|---|---|---|
@@ -75,7 +75,7 @@ Cover + Secret + Key → LSB → Stego Text → (نفس Key) → Secret الأص
 | 10 Architecture | 10 | R1001–R1010 | 10/10 ✅ |
 | 11 Case Management | 3 | R1101–R1103 | 3/3 ✅ |
 | 12 الخلاصة | 2 | R1201–R1202 | 2/2 ✅ |
-| **الإجمالي** | **59** | | **59/59 ✅** |
+| **الإجمالي** | **60** | | **60/60 ✅** |
 
 ---
 
@@ -108,8 +108,8 @@ Cover + Secret + Key → LSB → Stego Text → (نفس Key) → Secret الأص
 
 ```bash
 cd StegoNexus
-python tests/test_integration.py     # 23/23
-python tests/test_requirements.py    # 59/59  (مصفوفة المتطلبات)
+python tests/test_integration.py     # 24/24
+python tests/test_requirements.py    # 60/60  (مصفوفة المتطلبات)
 python demo.py                       # كل الأقسام → demo_output/
 python run_gui.py                    # الواجهة (10 صفحات)
 python run_cli.py --help             # CLI: 22 أمراً
@@ -123,7 +123,7 @@ python run_cli.py --help             # CLI: 22 أمراً
 > (Text/Image/Audio/Video/Network Hiding + Hashing + Forensics + Malware Lab +
 > Case/Reports/Logs + Dashboard) **مشغّلة فعلياً وموثقة بفحوصات حية**،
 > والأداة **متوافقة مع ملف المتطلبات بنسبة ≈ 99.8%**
-> (59/59 بنداً اجتازت الفحص الحي، لا بند ناقص).
+> (60/60 بنداً اجتازت الفحص الحي، لا بند ناقص).
 
 *StegoNexus — Unified Hiding, Extraction & Forensics Framework*
 *Prepared & Developed by Mohammed Moneer Al-absi*

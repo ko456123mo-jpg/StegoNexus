@@ -189,6 +189,22 @@ def r0210():
 check(210, "metadata tool: VIEW + INJECT (requirement item 1)", r0210)
 
 
+def r0211():
+    """متطلب: كل موضوع إخفاء بأكثر من تقنية — النص بتقنية ثانية (Zero-Width)."""
+    from stegonexus.core import text_zerowidth as zw
+    cover = "هذا نص غلاف عادي " * 20
+    stego, meta = zw.hide(cover, "سر سري للاختبار", "key-211")
+    assert meta["method"] == "zerowidth" and meta["hidden_chars"] > 0
+    secret, _ = zw.reveal(stego, "key-211")
+    assert secret == "سر سري للاختبار"
+    # كشف forensics بدون المفتاح
+    r = zw.inspect(stego)
+    assert r["suspicious"] and r["payload_bytes"] >= 8
+    # النص الأصلي (بدون أي إخفاء) لا يعتبر مشبوهاً
+    assert not zw.inspect(cover)["suspicious"]
+check(211, "text topic: 2nd technique Zero-Width + detection", r0211)
+
+
 # ============================================================================
 # 03 HASHING & INTEGRITY
 # ============================================================================

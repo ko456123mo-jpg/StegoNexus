@@ -17,6 +17,7 @@ from stegonexus.core import (
     hashing,
     entropy,
     text_hiding,
+    text_zerowidth,
     image_stego,
     image_steghide,
     audio_hiding,
@@ -24,6 +25,7 @@ from stegonexus.core import (
     network_hiding,
     malware_lab,
     forensics,
+    metadata,
 )
 from stegonexus.case.manager import CaseManager
 

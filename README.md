@@ -41,6 +41,7 @@ StegoNexus/
 │   │   ├── hashing.py             # 03 MD5/SHA1/SHA256/SHA512 + manifests
 │   │   ├── entropy.py             # 02 Shannon entropy engine (+sliding window)
 │   │   ├── text_hiding.py         # 04 Text LSB + key (PBKDF2 + XOR + keyed permutation)
+│   │   ├── text_zerowidth.py      # 04 Zero-Width invisible-char technique (2nd)
 │   │   ├── image_stego.py         # 05 CyberHide-style AES-LSB (pure Python)
 │   │   ├── image_steghide.py      # 05 Steghide wrapper (auto fallback)
 │   │   ├── audio_hiding.py        # 06 LSB / Phase / Spread Spectrum / Metadata
@@ -160,8 +161,8 @@ python run_cli.py case export --case-id CASE-XXXX --format md
 ## 🧪 Verification
 
 ```bash
-python tests/test_integration.py     # 23/23 end-to-end checks
-python tests/test_requirements.py    # 59/59 live requirement checks
+python tests/test_integration.py     # 24/24 end-to-end checks
+python tests/test_requirements.py    # 60/60 live requirement checks
 python demo.py                       # builds a full demo in demo_output/
 ```
 
@@ -171,7 +172,7 @@ python demo.py                       # builds a full demo in demo_output/
 
 | File | Purpose |
 |------|---------|
-| `StegoNexus_Presentation.pptx` | 16-slide project presentation (AR/EN, real screenshots) |
+| `StegoNexus_Presentation.pptx` | 17-slide project presentation (AR/EN, real screenshots) |
 | `StegoNexus_Documentation.docx` | Official submission documentation (Arabic) |
 | `VIVA_QUESTIONS.md` | The 4 assessment questions + model answers |
 | `VERIFICATION_REPORT.md` / `COMPLIANCE_REPORT.md` | Test results & spec-compliance audit |
@@ -184,6 +185,7 @@ python demo.py                       # builds a full demo in demo_output/
 | Technique | Protection | Notes |
 |-----------|-----------|-------|
 | Text LSB | Key → PBKDF2-HMAC-SHA256 keystream → XOR + keyed carrier permutation | without the key the LSB stream is pseudo-random |
+| Text Zero-Width | 2 bits → one of 4 invisible code points (U+200B/200C/200D/FEFF), keyed scatter + XOR keystream | invisible on screen; `text-inspect` detects it without the key |
 | Image (CyberHide) | AES-256-CBC + HMAC-SHA256, PBKDF2 key, keyed channel permutation | HMAC rejects wrong passwords; lossless PNG container |
 | Audio LSB / Phase / SS | same KDF+keyed schemes | SS needs a quiet cover (ALPHA dominates carrier) |
 | Video | payload in audio track; **PCM (lossless) in MKV** | lossy AAC destroys LSBs — the Dashboard explains this |

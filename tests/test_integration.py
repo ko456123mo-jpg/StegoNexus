@@ -233,6 +233,17 @@ def main():
         assert "STEALTH-COMMENT-42" not in str(v0.get("metadata", {}))
     check("metadata tool: view + inject (images, exiftool/Pillow)", t_metadata)
 
+    # ---- text: second technique (zero-width) --------------------------
+    def t_zerowidth():
+        from stegonexus.core import text_zerowidth as zw
+        cover = "نص غلاف عادي للمتطلبات — يجب أن يبقى مقروءاً تماماً. " * 30
+        stego, meta = zw.hide(cover, "SECRET-ZW-777", "key-zw")
+        assert meta["hidden_chars"] > 0
+        assert zw.inspect(stego)["suspicious"]
+        secret, _ = zw.reveal(stego, "key-zw")
+        assert secret == "SECRET-ZW-777"
+    check("text hiding: second technique (zero-width) + detection", t_zerowidth)
+
     # ---- 02 forensics ---------------------------------------------------
     def t_forensics():
         r = core.forensics.aggregate(cover_png)

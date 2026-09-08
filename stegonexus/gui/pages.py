@@ -266,6 +266,10 @@ class TextHidingPage(Page):
         self.secret.setPlaceholderText("Secret message (hidden inside the cover)")
         self.key = W.KeyRow("Key")
         row = QHBoxLayout()
+        self.tech = QComboBox()
+        self.tech.addItems(["LSB (classic, keyed permutation)",
+                            "Zero-Width invisible characters"])
+        row.addWidget(QLabel("Technique:")); row.addWidget(self.tech)
         save_out = QPushButton("Hide → Stego Text"); save_out.setObjectName("primary")
         save_out.clicked.connect(self.do_hide)
         save_file = QPushButton("Hide → save to file...")
@@ -281,49 +285,65 @@ class TextHidingPage(Page):
         # reveal
         reveal = QWidget(); r = QVBoxLayout(reveal)
         self.stego = QPlainTextEdit(); self.stego.setPlaceholderText(
-            "Paste the stego text (LSB carriers preserved)")
+            "Paste the stego text (LSB / Zero-Width carriers preserved)")
         self.rkey = W.KeyRow("Key")
+        self.rtech = QComboBox()
+        self.rtech.addItems(["LSB (classic, keyed permutation)",
+                             "Zero-Width invisible characters"])
+        rrun = QHBoxLayout()
+        rrun.addWidget(QLabel("Technique:")); rrun.addWidget(self.rtech)
         run = QPushButton("Extract Secret"); run.setObjectName("primary")
         run.clicked.connect(self.do_reveal)
+        rrun.addWidget(run); rrun.addStretch(1)
         self.msg = QPlainTextEdit(); self.msg.setReadOnly(True)
         r.addWidget(QLabel("Stego text:")); r.addWidget(self.stego, 1)
-        r.addWidget(self.rkey); r.addWidget(run)
+        r.addWidget(self.rkey); r.addLayout(rrun)
         r.addWidget(QLabel("Recovered secret message:")); r.addWidget(self.msg, 1)
         tabs.addTab(reveal, "Extract")
 
+    def _tech_mod(self, which: str = "hide"):
+        box = self.tech if which == "hide" else self.rtech
+        return core.text_zerowidth if box.currentIndex() == 1 else core.text_hiding
+
     def do_hide(self):
-        cover, secret, key = self.cover.toPlainText(), self.secret.toPlainText(), self.key.text()
+        cover, secret, key = (self.cover.toPlainText(), self.secret.toPlainText(),
+                              self.key.text())
+        mod = self._tech_mod("hide")
         try:
-            stego, meta = core.text_hiding.encode(cover, secret, key)
+            stego, meta = mod.encode(cover, secret, key)
         except Exception as exc:
             W.fail(str(exc)); return
         self.result.setPlainText(stego)
-        self.record("text-lsb", "hide", meta)
-        W.ok(f"Hidden! Secret: {meta['secret_bytes']} B → payload "
-             f"{meta['payload_bits']} bits in {meta['cover_chars']} cover chars.")
+        self.record("text-" + getattr(mod, "__name__", "hiding"), "hide", meta)
+        W.ok(f"Hidden ({meta.get('method', 'lsb')})! Secret: {meta['secret_bytes']} B → "
+             f"{meta.get('payload_bits', meta.get('hidden_chars'))} bits "
+             f"in {meta['cover_chars']} cover chars.")
 
     def do_hide_file(self):
         from PySide6.QtWidgets import QFileDialog
         cover = self.cover.toPlainText()
         secret = self.secret.toPlainText()
+        mod = self._tech_mod("hide")
         try:
-            stego, meta = core.text_hiding.encode(cover, secret, self.key.text())
+            stego, meta = mod.encode(cover, secret, self.key.text())
         except Exception as exc:
             W.fail(str(exc)); return
         path, _ = QFileDialog.getSaveFileName(self, "Save stego text", "stego_text.txt")
         if path:
             open(path, "w", encoding="utf-8").write(stego)
             self.result.setPlainText(stego)
-            self.record("text-lsb", "hide", meta | {"saved": path})
+            self.record("text-" + getattr(mod, "__name__", "hiding"), "hide",
+                        meta | {"saved": path})
             W.ok("Stego text saved to " + path)
 
     def do_reveal(self):
+        mod = self._tech_mod("reveal")
         try:
-            secret, meta = core.text_hiding.decode(self.stego.toPlainText(), self.rkey.text())
+            secret, meta = mod.decode(self.stego.toPlainText(), self.rkey.text())
         except Exception as exc:
             W.fail(str(exc)); return
         self.msg.setPlainText(secret)
-        self.record("text-lsb", "extract", meta)
+        self.record("text-" + getattr(mod, "__name__", "hiding"), "extract", meta)
         W.ok("Secret recovered:\n\n" + secret)
 
 

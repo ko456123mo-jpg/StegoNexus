@@ -141,8 +141,8 @@ python demo.py
 
 ## 4) التحقق من سلامة النسخة على جهازك
 ```bash
-python tests/test_integration.py     # 23/23 = كل الوحدات تعمل
-python tests/test_requirements.py    # 59/59 = كل بنود المتطلبات (فحوصات حية)
+python tests/test_integration.py     # 24/24 = كل الوحدات تعمل
+python tests/test_requirements.py    # 60/60 = كل بنود المتطلبات (فحوصات حية)
 ```
 
 ---
