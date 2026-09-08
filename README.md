@@ -48,6 +48,7 @@ StegoNexus/
 │   │   ├── network_hiding.py      # 08 covert channels (ipid/isn/timing)
 │   │   ├── video_hiding.py        # 07 VideoHide (ffmpeg/ffprobe + container)
 │   │   ├── malware_lab.py         # 09 PE/ELF evasion detection + demo stub
+│   │   ├── metadata.py            #    Metadata VIEW + INJECT (exiftool / Pillow)
 │   │   └── forensics.py           # 02 aggregated forensic pipeline
 │   ├── case/
 │   │   └── manager.py             # 11 cases, reports, logs
@@ -55,7 +56,7 @@ StegoNexus/
 │       ├── app.py                 #    MainWindow + navigation
 │       ├── pages.py               #    one page per module
 │       └── widgets.py             #    shared dark-theme widgets
-├── tests/test_integration.py      # 20 end-to-end tests (all modules)
+├── tests/test_integration.py      # 23 end-to-end tests (all modules)
 ├── requirements.txt
 ├── pyproject.toml
 └── ARCHITECTURE.md
@@ -159,9 +160,22 @@ python run_cli.py case export --case-id CASE-XXXX --format md
 ## 🧪 Verification
 
 ```bash
-python tests/test_integration.py     # 20/20 end-to-end checks
+python tests/test_integration.py     # 23/23 end-to-end checks
+python tests/test_requirements.py    # 59/59 live requirement checks
 python demo.py                       # builds a full demo in demo_output/
 ```
+
+---
+
+## 📦 Delivered documents (assessment)
+
+| File | Purpose |
+|------|---------|
+| `StegoNexus_Presentation.pptx` | 16-slide project presentation (AR/EN, real screenshots) |
+| `StegoNexus_Documentation.docx` | Official submission documentation (Arabic) |
+| `VIVA_QUESTIONS.md` | The 4 assessment questions + model answers |
+| `VERIFICATION_REPORT.md` / `COMPLIANCE_REPORT.md` | Test results & spec-compliance audit |
+| `RUN_ON_KALI.md` | Arabic run guide |
 
 ---
 

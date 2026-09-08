@@ -245,6 +245,26 @@ def cmd_forensics(args) -> None:
     return r
 
 
+def cmd_image_meta(args) -> None:
+    from stegonexus.core import metadata as md
+    if args.meta_action == "view":
+        r = md.view_metadata(args.file)
+        meta = r.get("metadata", {})
+        if isinstance(meta, dict):
+            for k, v in meta.items():
+                _p(f"{k:<20}: {v}")
+        else:
+            _p(str(meta)[:2000])
+        _p(f"[tool: {r.get('tool')}]")
+    else:
+        if not args.comment:
+            raise SystemExit("--comment is required for inject")
+        r = md.inject_metadata(args.file, args.comment,
+                               out_path=args.output, author=args.author or None)
+        _p(f"[+] Metadata injected ({r['method']}) -> {r['out']}")
+        _p(f"    verified: {r['verified']}")
+
+
 def cmd_videohide_script(args) -> None:
     path = core.video_hiding.write_videohide_script(args.output)
     _p(f"[+] videohide.sh written: {path}")
@@ -318,6 +338,14 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("file")
     s.add_argument("--password", help="steghide passphrase (confirms embedded data)")
     s.set_defaults(fn=cmd_image_info)
+
+    s = sub.add_parser("image-meta", help="view or inject metadata (exiftool / Pillow)")
+    s.add_argument("meta_action", choices=["view", "inject"])
+    s.add_argument("file")
+    s.add_argument("--comment", default="", help="metadata to inject (inject)")
+    s.add_argument("--author", default="")
+    s.add_argument("--output", help="output file (inject)")
+    s.set_defaults(fn=cmd_image_meta)
 
     # audio
     s = sub.add_parser("audio", help="audio hiding (lsb|phase|ss|meta)")

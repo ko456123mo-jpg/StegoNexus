@@ -360,6 +360,28 @@ class ImageHidingPage(Page):
         e.addWidget(b2); e.addWidget(self.res2, 1)
         tabs.addTab(ex, "Extract")
 
+        # metadata view & inject (متطلب: عرض وحقن البيانات الوصفية)
+        mt = QWidget(); m = QVBoxLayout(mt)
+        self.meta_in = W.FileRow("Image/container to inject metadata into")
+        self.meta_pwrow = QHBoxLayout()
+        self.meta_comment = QPlainTextEdit()
+        self.meta_comment.setPlaceholderText(" Metadata to inject (Comment)…")
+        self.meta_comment.setMaximumHeight(70)
+        self.meta_author = QLineEdit()
+        self.meta_author.setPlaceholderText("Author (optional)")
+        b4 = QPushButton("Inject metadata"); b4.setObjectName("primary")
+        b4.clicked.connect(self.do_meta_inject)
+        b5 = QPushButton("View metadata"); b5.clicked.connect(self.do_meta_view)
+        self.meta_res = QPlainTextEdit(); self.meta_res.setReadOnly(True)
+        m.addWidget(self.meta_in)
+        m.addWidget(QLabel("Metadata (Comment) to inject:")); m.addWidget(self.meta_comment)
+        self.meta_pwrow.addWidget(self.meta_author); self.meta_pwrow.addWidget(b4)
+        m.addLayout(self.meta_pwrow)
+        row5 = QHBoxLayout(); row5.addWidget(b5); row5.addStretch(1)
+        m.addLayout(row5)
+        m.addWidget(QLabel("Metadata of the selected file:")); m.addWidget(self.meta_res, 1)
+        tabs.addTab(mt, "Metadata (View / Inject)")
+
         # probe / forensics
         pr = QWidget(); p = QVBoxLayout(pr)
         self.probe_in = W.FileRow("Image to inspect for hidden data")
@@ -370,6 +392,41 @@ class ImageHidingPage(Page):
         p.addWidget(self.probe_in); p.addWidget(self.probe_pass)
         p.addWidget(b3); p.addWidget(self.res3, 1)
         tabs.addTab(pr, "Probe / Info")
+
+    def do_meta_inject(self):
+        from stegonexus.core import metadata as md
+        p = self.meta_in.path()
+        if not os.path.exists(p):
+            W.warn("Choose a file first."); return
+        comment = self.meta_comment.toPlainText()
+        if not comment.strip():
+            W.warn("Write the metadata (Comment) to inject first."); return
+        try:
+            r = md.inject_metadata(p, comment, author=self.meta_author.text() or None)
+        except Exception as exc:
+            W.fail(str(exc)); return
+        self.meta_res.setPlainText(
+            f"[+] Injected ({r['method']}) -> {r['out']}\nverified: {r['verified']}\n"
+            f"\npreview:\n{r['view_preview']}")
+        self.record("metadata", "inject", r)
+        W.ok("Metadata injected:\n" + r["out"])
+
+    def do_meta_view(self):
+        from stegonexus.core import metadata as md
+        p = self.meta_in.path()
+        if not os.path.exists(p):
+            W.warn("Choose a file first."); return
+        try:
+            r = md.view_metadata(p)
+        except Exception as exc:
+            W.fail(str(exc)); return
+        meta = r.get("metadata", {})
+        if isinstance(meta, dict):
+            lines = [f"{k:<18}: {v}" for k, v in meta.items()]
+            self.meta_res.setPlainText("\n".join(lines)[:4000])
+        else:
+            self.meta_res.setPlainText(str(meta)[:4000])
+        self.record("metadata", "view", {"file": p, "tool": r.get("tool")})
 
     def do_hide(self):
         cover, secret, pw = self.cover.path(), self.secret.path(), self.passwd.text()

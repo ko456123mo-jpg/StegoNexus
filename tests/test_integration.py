@@ -220,6 +220,19 @@ def main():
         assert "verdict" in info
     check("09 malware evasion demo stub + detection pass", t_malware)
 
+    # ---- metadata view & inject (متطلب: عرض وحقن البيانات الوصفية) ------
+    def t_metadata():
+        from stegonexus.core import metadata as md
+        r = md.inject_metadata(cover_png, "STEALTH-COMMENT-42", author="SNX")
+        assert os.path.exists(r["out"])
+        v = md.view_metadata(r["out"])
+        text = str(v.get("metadata", {}))
+        assert "STEALTH-COMMENT-42" in text
+        # view before injection must NOT contain the comment
+        v0 = md.view_metadata(cover_png)
+        assert "STEALTH-COMMENT-42" not in str(v0.get("metadata", {}))
+    check("metadata tool: view + inject (images, exiftool/Pillow)", t_metadata)
+
     # ---- 02 forensics ---------------------------------------------------
     def t_forensics():
         r = core.forensics.aggregate(cover_png)

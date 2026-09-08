@@ -179,6 +179,16 @@ def r0209():
 check(209, "aggregated results -> one interface + Case + Reports/Logs", r0209)
 
 
+def r0210():
+    """متطلب: أداة عرض البيانات الوصفية وأيضاً حقن البيانات الوصفية."""
+    from stegonexus.core import metadata as md
+    r = md.inject_metadata(COVER_PNG, "REQ-META-210", author="SNX")
+    assert os.path.exists(r["out"])
+    v = md.view_metadata(r["out"])
+    assert "REQ-META-210" in str(v.get("metadata", {}))
+check(210, "metadata tool: VIEW + INJECT (requirement item 1)", r0210)
+
+
 # ============================================================================
 # 03 HASHING & INTEGRITY
 # ============================================================================
