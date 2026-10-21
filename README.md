@@ -2,7 +2,20 @@
 
 <p align="center"><img src="screenshots/logo_primary.png" width="340" alt="StegoNexus logo"></p>
 
-**Prepared & Developed by: Mohammed Moneer Al-absi**
+<p align="center">
+  <a href="../../actions/workflows/tests.yml"><img src="../../actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
+  <img src="https://img.shields.io/badge/Python-3.11%2B-blue?logo=python&logoColor=white" alt="Python 3.11+"/>
+  <img src="https://img.shields.io/badge/License-MIT-yellow" alt="MIT License"/>
+  <img src="https://img.shields.io/badge/Platform-Kali%20%2F%20Debian-557C94?logo=kalilinux&logoColor=white" alt="Kali Linux"/>
+  <img src="https://img.shields.io/badge/GUI-PySide6-41CD52?logo=qt&logoColor=white" alt="PySide6"/>
+  <img src="https://img.shields.io/badge/Domain-Digital%20Forensics-8B5CF6" alt="Digital Forensics"/>
+</p>
+
+**Built by: Mohammed Moneer** · مهندس أمن سيبراني
+
+> **منضدة عمل جنائية دفاعية واحدة** تختصر عشرات الأدوات المتناثرة في واجهة واحدة:
+> كشف البيانات المخفية، توثيق الأدلة، وإصدار تقرير قابل للتسليم — في بيئة Linux.
+> مخصّصة للاستخدام المخوّل والتعليمي فقط.
 
 > تحويل تقنيات الإخفاء (Hiding) والاستخراج (Extraction) التي تم تناولها خلال الترم
 > إلى **أداة واحدة متكاملة** تعمل على Kali Linux، توفر **Dashboard موحّدة** للاختيار
@@ -171,18 +184,23 @@ python demo.py                       # builds a full demo in demo_output/
 
 ---
 
-## 📦 Delivered documents (assessment)
+## 📦 Documentation & reports
 
 | File | Purpose |
 |------|---------|
-| `StegoNexus_Presentation.pptx` | 17-slide project presentation (AR/EN, real screenshots) |
-| `StegoNexus_Documentation.docx` | Official submission documentation (Arabic) |
-| `StegoNexus_Professional_Report.docx` | Professional tool report — **English** (logo + metrics + gallery) |
-| `StegoNexus_Professional_Report_AR.docx` | Same report in Arabic (reference copy) |
-| `VIVA_QUESTIONS.md` | The 4 assessment questions + model answers |
-| `READINESS_REPORT.md` | Final readiness report — every technique verified end-to-end (25/25) |
-| `VERIFICATION_REPORT.md` / `COMPLIANCE_REPORT.md` | Test results & spec-compliance audit |
-| `RUN_ON_KALI.md` | Arabic run guide |
+| [`ARCHITECTURE.md`](ARCHITECTURE.md) | Module-by-module architecture and data flow |
+| [`RUN_ON_KALI.md`](RUN_ON_KALI.md) | Arabic setup guide for Kali Linux |
+| [`docs/academic/READINESS_REPORT.md`](docs/academic/READINESS_REPORT.md) | Readiness report — every technique verified end-to-end (25/25) |
+| [`docs/academic/VERIFICATION_REPORT.md`](docs/academic/VERIFICATION_REPORT.md) | Test results |
+| [`docs/academic/COMPLIANCE_REPORT.md`](docs/academic/COMPLIANCE_REPORT.md) | Requirements traceability audit |
+| [`docs/academic/StegoNexus_Professional_Report.docx`](docs/academic/StegoNexus_Professional_Report.docx) | Professional tool report — **English** (metrics + gallery) |
+| [`docs/academic/StegoNexus_Professional_Report_AR.docx`](docs/academic/StegoNexus_Professional_Report_AR.docx) | Same report in Arabic |
+| [`docs/academic/StegoNexus_Presentation.pptx`](docs/academic/StegoNexus_Presentation.pptx) | 17-slide deck (AR/EN, real screenshots) |
+| [`docs/academic/StegoNexus_Documentation.docx`](docs/academic/StegoNexus_Documentation.docx) | Full documentation (Arabic) |
+
+> تُولَّد هذه المستندات بأوامر من `scripts/docs/`، وتُخزَّن في `docs/academic/`
+> منفصلةً عن كود الأداة حتى يبقى جذر المستودع نظيفاً. ملف
+> [`VIVA_QUESTIONS.md`](docs/academic/VIVA_QUESTIONS.md) محفوظ كمرجع تعليمي فقط.
 
 ---
 
@@ -205,5 +223,18 @@ only inert demo artifacts and indicators, never weapons.
 
 ## 👤 Author
 
-**Mohammed Moneer Al-absi** — StegoNexus v1.0.0 (Project Summary: Unified Hiding,
-Extraction & Forensics Framework · Kali Linux)
+**Mohammed Moneer** — مهندس أمن سيبراني · StegoNexus v1.0.0
+
+- 🐙 [@ko456123mo-jpg](https://github.com/ko456123mo-jpg)
+- 📧 [moh123mon456@gmail.com](mailto:moh123mon456@gmail.com)
+
+**متاح للعمل الحر:** تحليل جنائي رقمي · كشف البيانات المخفية · بناء أدوات أمنية مخصّصة.
+
+## 📜 License
+
+MIT — see [`LICENSE`](LICENSE). الاستخدام التجاري مسموح.
+
+## ⚖️ الاستخدام المسموح
+
+أداة تحليل دفاعي للأنظمة التي تملك صلاحية تحليلها فقط.
+اقرأ [`USAGE_POLICY.md`](USAGE_POLICY.md) · للإبلاغ عن ثغرة: [`SECURITY.md`](SECURITY.md)
