@@ -329,8 +329,34 @@ def main():
     # ---------------- 10 MALWARE ----------------
     print("\n[10] Malware hiding & evasion (defensive)")
     smp = os.path.join(ROOT, "demo_output", "sample_payload.exe")
+    def _ensure_sample_payload(path):
+        """يبني عيّنة PE اصطناعية عالية الإنتروبيا إن لم تكن موجودة.
+
+        العيّنة مُولَّدة (لا تُلتزم في Git) لأن demo_output/ مخرجات قابلة
+        لإعادة التوليد عبر `python demo.py`؛ نولّدها هنا حتى يبقى الفحص
+        قابلاً للتشغيل بعد استنساخ نظيف.
+        """
+        if os.path.exists(path):
+            return
+        import struct
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        rng = np.random.default_rng(7) if "np" in globals() else None
+        if rng is not None:
+            body = bytes(rng.integers(0, 256, 60000, dtype=np.uint8))
+        else:  # بديل بلا numpy
+            import random
+            r = random.Random(7)
+            body = bytes(r.randrange(256) for _ in range(60000))
+        pe = bytearray(b"MZ") + b"\x00" * (0x3C - 2) + struct.pack("<I", 64)
+        pe += b"\x00" * (64 - len(pe))
+        pe += b"PE\x00\x00" + struct.pack("<HH", 0x8664, 0) + b"\x00" * 16
+        blob = bytes(pe) + body + b"MEI\x0c\x0bPYZ-00.pyz" + b"meterpreter"
+        with open(path, "wb") as fh:
+            fh.write(blob)
+
     def t_mal():
-        assert os.path.exists(smp), "sample_payload.exe missing"
+        _ensure_sample_payload(smp)
+        assert os.path.exists(smp), "sample_payload.exe missing (generation failed)"
         r = core.malware_lab.scan_executable(smp)
         assert r.get("structure") and r.get("verdict") and r.get("tool_indicators") is not None, str(r)[:150]
         assert r.get("overall_entropy", 0) > 7.0, "entropy missing"
