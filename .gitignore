@@ -15,3 +15,6 @@ build/
 
 # NOTE: demo_output/ (stego artifacts, pcaps, cases, reports) and
 # screenshots/ are committed on purpose as reproducible demo evidence.
+
+# Generated demo artifacts (recreate with: python demo.py)
+demo_output/
