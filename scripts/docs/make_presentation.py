@@ -15,9 +15,10 @@ from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.oxml.ns import qn
 from pptx.util import Inches, Pt
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+OUT_DIR = os.path.join(ROOT, "docs", "academic")
 SC = os.path.join(ROOT, "screenshots")
-OUT = os.path.join(ROOT, "StegoNexus_Presentation.pptx")
+OUT = os.path.join(OUT_DIR, "StegoNexus_Presentation.pptx")
 
 DARK = RGBColor(0x0F, 0x11, 0x17)
 PANEL = RGBColor(0x16, 0x1B, 0x22)

@@ -14,9 +14,10 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.oxml.ns import qn
 from docx.shared import Inches, Pt, RGBColor
 
-ROOT = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+OUT_DIR = os.path.join(ROOT, "docs", "academic")
 SC = os.path.join(ROOT, "screenshots")
-OUT = os.path.join(ROOT, "StegoNexus_Professional_Report_EN.docx")
+OUT = os.path.join(OUT_DIR, "StegoNexus_Professional_Report_EN.docx")
 
 GREEN = RGBColor(0x00, 0x80, 0x50)
 DARK = RGBColor(0x1A, 0x1A, 0x1A)
